@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ProductHero from './landing';
 import AppAppBar from './appbar2';
 import withRoot from './root';
+import Form from './signup/form'
 
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -36,7 +37,8 @@ function App() {
         </div>
       </nav> */}
       <AppAppBar />
-           <Route exact path='/' component={ProductHero} />
+           {/* <Route exact path='/' component={ProductHero} /> */}
+            <Route path="/" component={Form} />
            <Router>
       
             <Route path="/signin" component={Login} />

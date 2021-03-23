@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from 'axios';
 
 export default class SignUp extends Component {
   constructor() {
@@ -6,6 +7,8 @@ export default class SignUp extends Component {
     this.state = {
       input: {},
       errors: {},
+      otpShow: false,
+      otp: ''
 
     };
     // this.state = this.initialState();
@@ -14,6 +17,29 @@ export default class SignUp extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     // this.autocomplete = null;
   }
+      _getCode = async() => {
+        const e = this.state.code+this.state.pno;
+        await axios.get("http://localhost:8000/verify/getcode", {
+            params: {
+                phonenumber: e,
+                channel: 'sms'
+            }
+        })
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
+    };
+
+    _verifyCode = async () => {
+        const e = this.state.code+this.state.pno;
+        await axios.get("http://localhost:8000/verify/verifycode", {
+            params: {
+                phonenumber: e,
+                code: this.state.otp
+            }
+        })
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
+    }
 
   // initialState() {
   //   return {
@@ -95,11 +121,13 @@ export default class SignUp extends Component {
 
     return isValid;
   }
+
   render() {
     return (
         <div className="auth-wrapper">
         <div className="auth-inner">
       <form onSubmit={this.handleSubmit}>
+        
         <h3> Register </h3>
         <div className="form-group">
           <label> Your Name </label>{" "}
